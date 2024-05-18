@@ -1,0 +1,25 @@
+name: Scan Nginx Repo
+on:
+  schedule:
+    - cron: '*/60 * * * *'
+
+on:
+  workflow_dispatch:
+
+jobs:
+  scan:
+    name: List Recent Updates
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Scan Nginx Repository
+        uses: dhet/scan-docker-tags-action@v1.0.1
+        with:
+          image: nginx/nginx
+          max-age-minutes: 60
+          username: ${{ secrets.DOCKER_HUB_USER }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+        id: scan
+      - name: Print
+        run: "echo 'Recent updates: ${{ steps.scan.outputs.tags }}'"
