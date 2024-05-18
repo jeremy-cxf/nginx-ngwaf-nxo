@@ -9,15 +9,14 @@ jobs:
     name: List Recent Updates
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Scan Nginx Repository
-        uses: dhet/scan-docker-tags-action@v1.0.1
+      - name: Get latest tag
+        id: latest_tag
+        uses: jacobtomlinson/gha-get-docker-hub-tags@0.1.1
         with:
-          image: library/nginx
-          max-age-minutes: 60
-          username: ${{ secrets.DOCKER_HUB_USER }}
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-        id: scan
-      - name: Print
-        run: "echo 'Recent updates: ${{ steps.scan.outputs.tags }}'"
+          org: 'mysql'  # Docker Hub user or organisation name
+          repo: 'mysql-server'  # Docker Hub repository name
+
+      # Optionally check the tag we got back
+      - name: Check outputs
+        run: |
+          echo "Latest Image Tag - ${{ steps.latest_tag.outputs.tag }}"
