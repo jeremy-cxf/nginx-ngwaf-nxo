@@ -13,8 +13,8 @@ jobs:
         id: latest_tag
         uses: jacobtomlinson/gha-get-docker-hub-tags@0.1.1
         with:
-          org: 'mysql'  # Docker Hub user or organisation name
-          repo: 'mysql-server'  # Docker Hub repository name
+          org:  'library' 
+          repo: 'nginx'
 
       # Optionally check the tag we got back
       - name: Check outputs
